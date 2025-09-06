@@ -2,7 +2,7 @@
 
 ANTLR_JAR=../antlr-4.13.1-complete.jar
 GRAMMAR=ObfuMiniC
-OUTPUT_DIR=../obfuscator/parser
+OUTPUT_DIR=../deobfuscator/parser
 
 if [ ! -f "$ANTLR_JAR" ]; then
   echo 

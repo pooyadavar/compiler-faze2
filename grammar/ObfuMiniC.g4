@@ -22,11 +22,20 @@ stmt
     | loopStmt
     | returnStmt
     | ioStmt
-    | switchStmt   ;
+    | switchStmt
+    | gotoStmt      // <-- اضافه شده
+    | labelStmt     // <-- اضافه شده
+    ;
+
 
 switchStmt
     : 'switch' '(' expr ')' '{' switchBlock* '}'
     ;
+
+
+gotoStmt: 'goto' ID ';' ;
+labelStmt: ID ':' ;
+
 
 switchBlock
     : caseBlock

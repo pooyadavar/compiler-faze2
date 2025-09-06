@@ -178,12 +178,11 @@ class FuncCall(Expression):
         self.args = args
 
 
-class Label:
+class Label(Statement):
     def __init__(self, name):
         self.name = name
 
-
-class Goto(Node):
+class Goto(Statement):
     def __init__(self, label):
         self.label = label
 

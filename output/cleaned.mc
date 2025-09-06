@@ -1,20 +1,21 @@
-int add(int a, int b) {
-    int result = (a + b);
-    return result;
+int koh551(int izz890, int grh682) {
+    int hlh858;
+    hlh858 = (izz890 + grh682);
+    return hlh858;
 }
 int main() {
-    int x = 5;
-    int y = 10;
-    int sum = add(x, y);
-    printf("%d\n", sum);
-    while ((x == 5))
-    {
-        printf("sample");
-    }
-    int i = 0;
-    for ((i < 5); i = (i + 1); )
-    {
-        printf("i is %d\n", i);
-    }
+    int fzs308;
+    int qkv5;
+    int rxh531;
+    int unused_0;
+    int unused_1;
+    int unused_2;
+    unused_0 = 582;
+    fzs308 = 3;
+    rxh531 = 4;
+    unused_1 = 170;
+    qkv5 = koh551(fzs308, rxh531);
+    unused_2 = 141;
+    printf("%d\n", qkv5);
     return 0;
 }

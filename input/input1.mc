@@ -1,11 +1,7 @@
-int sum(int a, int b) {
-int result = a + b;
-return result;
-}
+
 int main() {
-int x = 3;
-int y = 4;
-int total = sum(x, y);
-printf("%d\n", total);
-return 0;
+    int y = 5 - (-3); 
+    int z = 10 + 0; 
+    printf("%d", y);
+    return z;
 }

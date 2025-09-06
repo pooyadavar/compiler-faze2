@@ -19,6 +19,10 @@ from deobfuscator.ast import (
     FuncCall,
     Variable,
     Literal,
+    Goto,
+    Label,
+    Switch,
+    SwitchCase 
 )
 
 
@@ -49,6 +53,20 @@ class ASTBuilder(ObfuMiniCVisitor):
                 default = Block(stmts)
 
         return Switch(expr, cases, default)
+    
+    def visitLiteral(self, ctx: ObfuMiniCParser.LiteralContext):
+        if ctx.NUMBER():
+
+            value = int(ctx.NUMBER().getText())
+            return Literal(value)
+        elif ctx.CHAR():
+            value = ctx.CHAR().getText()
+            return Literal(value)
+        elif ctx.BOOL():
+            value = ctx.BOOL().getText() == 'true'
+            return Literal(value)
+        
+        return None
 
     def visitCaseBlock(self, ctx):
         value = self.visit(ctx.literal())
@@ -234,3 +252,12 @@ class ASTBuilder(ObfuMiniCVisitor):
 
     def visitArgList(self, ctx):
         return [self.visit(e) for e in ctx.expr()]
+    
+
+    def visitGotoStmt(self, ctx: ObfuMiniCParser.GotoStmtContext):
+        label_name = ctx.ID().getText()
+        return Goto(label_name)
+
+    def visitLabelStmt(self, ctx: ObfuMiniCParser.LabelStmtContext):
+        label_name = ctx.ID().getText()
+        return Label(label_name)
