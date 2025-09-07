@@ -4,13 +4,13 @@ import os
 from cli import run_pipeline
 
 
-class ObfuscatorGUI:
+class DeobfuscatorGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Mini-C Obfuscator")
-        self.root.geometry("500x420")
+        self.root.title("Mini-C Deobfuscator")
+        self.root.geometry("500x480")
 
-        self.input_path = tk.StringVar(value="input/input1.mc")
+        self.input_path = tk.StringVar(value="input/input.mc")
         self.output_path = tk.StringVar(value="output_gui/output.mc")
 
         tk.Label(root, text="Input File:").pack(pady=5)
@@ -24,7 +24,7 @@ class ObfuscatorGUI:
             "rename": tk.BooleanVar(),
             "dead": tk.BooleanVar(),
             "expr": tk.BooleanVar(),
-            "flatten": tk.BooleanVar(),
+            "control": tk.BooleanVar(),
             "inline": tk.BooleanVar(),
             "all": tk.BooleanVar(),
             "check": tk.BooleanVar(),
@@ -36,7 +36,7 @@ class ObfuscatorGUI:
                 root, text=key.capitalize(), variable=self.options[key]
             ).pack(anchor="w", padx=20)
 
-        tk.Button(root, text="Run Obfuscation", command=self.run).pack(pady=20)
+        tk.Button(root, text="Run Deobfuscation", command=self.run).pack(pady=20)
 
     def browse_input(self):
         path = filedialog.askopenfilename(filetypes=[("Mini-C Files", "*.mc")])
@@ -53,20 +53,20 @@ class ObfuscatorGUI:
 
         stages = []
         if self.options["all"].get():
-            stages = ["rename", "dead", "expr", "flatten", "inline"]
+            stages = ["dead", "expr", "rename", "control", "inline"]
         else:
-            for key in ["rename", "dead", "expr", "flatten", "inline"]:
+            for key in ["dead", "expr", "rename", "control", "inline"]:
                 if self.options[key].get():
                     stages.append(key)
 
         try:
             run_pipeline(in_path, out_path, stages, self.options["check"].get())
-            messagebox.showinfo("Success", f"Obfuscated code saved to:\n{out_path}")
+            messagebox.showinfo("Success", f"Deobfuscated code saved to:\n{out_path}")
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = ObfuscatorGUI(root)
+    app = DeobfuscatorGUI(root)
     root.mainloop()

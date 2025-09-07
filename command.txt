@@ -1,0 +1,13 @@
+python cli.py input/input.mc -o clean/myfile.mc
+
+python cli.py input/input.mc --dead
+
+python cli.py input/input.mc --expr
+
+python cli.py input/input.mc --rename
+
+python cli.py input/input.mc --control
+
+python cli.py input/input.mc --inline
+
+python cli.py input/input.mc --dead --expr --rename --inline --control
