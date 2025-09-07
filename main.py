@@ -7,12 +7,12 @@ from deobfuscator.techniques.expression_simplifier import ExpressionSimplifier
 from deobfuscator.techniques.control_flow_simplifier import ControlFlowSimplifier 
 from deobfuscator.techniques.dead_code_remover import DeadCodeRemover
 from deobfuscator.techniques.inline_reconstructor import InlineReconstructor
-from deobfuscator.techniques.name_recoverer import NameRecoverer
+from deobfuscator.techniques.name_recoverer import SemanticNameRecoverer
 from deobfuscator.ast_builder import ASTBuilder
 from deobfuscator.code_generator import CodeGenerator
 def main():
     # --- Parse input file ---
-    input_stream = FileStream("input/input.mc")
+    input_stream = FileStream("input/input1.mc")
     lexer = ObfuMiniCLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = ObfuMiniCParser(stream)
@@ -39,7 +39,7 @@ def main():
     ic.reconstruct(prog)
 
     print("[deobfuscator] recovering readable names...")
-    rn = NameRecoverer()
+    rn = SemanticNameRecoverer()
     rn.recover(prog)
 
     # --- Generate code ---

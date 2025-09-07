@@ -16,7 +16,7 @@ int main() {
     printf("%d\n", n);
     m = 0;
     m = 0;
-    for ((m < n); m = (m + 1); )
+    for (;(m < n); m = (m + 1) )
     {
         printf("i is %d\n", m);
     }
