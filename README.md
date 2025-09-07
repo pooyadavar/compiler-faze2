@@ -155,7 +155,7 @@ int main() {
 
 ---
 
-## ✅ Evaluation Criteria
+## Evaluation Criteria
 
 * **Correctness** – Clean output must compile and run with the same behavior.
 * **Completeness** – All obfuscation patterns must be reverted.
@@ -164,6 +164,16 @@ int main() {
 
 ---
 
+| Aspect              | **Obfuscator (Phase 1)**                                                                                  | **Deobfuscator (Phase 2)**                                                                                     |
+| ------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Goal**            | Make code hard to read but functionally equivalent.                                                       | Restore clean, human-readable source code.                                                                     |
+| **Transformations** | Variable renaming, function inlining, dead code insertion, expression rewriting, control-flow flattening. | Name recovery, inline reconstruction, dead code removal, expression simplification, control-flow unflattening. |
+| **Output**          | Dirty/obfuscated Mini-C code (`output_dirty.mc`).                                                         | Clean Mini-C code (`output_clean.mc`).                                                                         |
+| **Direction**       | Clean → Dirty.                                                                                            | Dirty → Clean.                                                                                                 |
+| **Difficulty**      | Implementing transformations.                                                                             | Detecting and reversing transformations.                                                                       |
+
+Clean → Obfuscator → Dirty → Deobfuscator → Clean
+---
 ## 👥 Team
 Mobin Rozati
 Pooya Davar
