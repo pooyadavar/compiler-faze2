@@ -12,7 +12,7 @@ from deobfuscator.ast_builder import ASTBuilder
 from deobfuscator.code_generator import CodeGenerator
 def main():
     # --- Parse input file ---
-    input_stream = FileStream("input/input1.mc")
+    input_stream = FileStream("input/input.mc")
     lexer = ObfuMiniCLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = ObfuMiniCParser(stream)
