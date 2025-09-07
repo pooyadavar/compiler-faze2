@@ -5,39 +5,51 @@ from deobfuscator.parser.ObfuMiniCLexer import ObfuMiniCLexer
 from deobfuscator.parser.ObfuMiniCParser import ObfuMiniCParser
 from deobfuscator.techniques.expression_simplifier import ExpressionSimplifier 
 from deobfuscator.techniques.control_flow_simplifier import ControlFlowSimplifier 
-
+from deobfuscator.techniques.dead_code_remover import DeadCodeRemover
+from deobfuscator.techniques.inline_reconstructor import InlineReconstructor
+from deobfuscator.techniques.name_recoverer import NameRecoverer
+from deobfuscator.ast_builder import ASTBuilder
+from deobfuscator.code_generator import CodeGenerator
 def main():
-
-    input_stream = FileStream("input/input.mc")
+    # --- Parse input file ---
+    input_stream = FileStream("input/input2.mc")
     lexer = ObfuMiniCLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = ObfuMiniCParser(stream)
     tree = parser.compilationUnit()
 
+    # --- Build AST ---
     ast_builder = ASTBuilder()
-    ast = ast_builder.visit(tree)
+    prog = ast_builder.visit(tree)
 
+    print("[deobfuscator] removing dead code...")
+    dc = DeadCodeRemover()
+    dc.remove(prog)
 
-    print("\nApplying Expression Simplification...")
-    simplifier = ExpressionSimplifier()
-    simplified_ast = simplifier.visit(ast)
-    print("Simplification finished.")
+    print("[deobfuscator] simplifying expressions...")
+    es = ExpressionSimplifier()
+    es.simplify(prog)
 
-
-
-    print("\nApplying Control Flow Simplification...")
+    print("[deobfuscator] simplifying control flow...")
     cf_simplifier = ControlFlowSimplifier()
-    final_ast = cf_simplifier.visit(simplified_ast)
-    print("Simplification finished.")
+    cf_simplifier.visit(prog)
 
+    print("[deobfuscator] reconstructing inlined functions...")
+    ic = InlineReconstructor()
+    ic.reconstruct(prog)
+
+    print("[deobfuscator] recovering readable names...")
+    rn = NameRecoverer()
+    rn.recover(prog)
+
+    # --- Generate code ---
     code_gen = CodeGenerator()
-    output_code = code_gen.generate(ast)
-
+    output_code = code_gen.generate(prog)
 
     with open("output/cleaned.mc", "w") as f:
         f.write(output_code)
-    
-    print("Initial test finished. Check output/cleaned.mc")
+
+    print("Deobfuscation finished. Check output/cleaned.mc")
 
 if __name__ == '__main__':
     main()

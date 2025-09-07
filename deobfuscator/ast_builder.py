@@ -163,9 +163,10 @@ class ASTBuilder(ObfuMiniCVisitor):
 
     def visitAssignExpr(self, ctx):
         if ctx.getChildCount() == 3:
-            target = ctx.getChild(0).getText()
-            value = self.visit(ctx.assignExpr())
-            return Assignment(target, value)
+            target_text = ctx.getChild(0).getText()
+            target_node = Variable(target_text)   # ALWAYS use Variable
+            value_node = self.visit(ctx.assignExpr())
+            return Assignment(target_node, value_node)
         return self.visit(ctx.logicOrExpr())
 
     def visitLogicOrExpr(self, ctx):

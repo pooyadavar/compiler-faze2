@@ -1,21 +1,26 @@
-int koh551(int izz890, int grh682) {
+int cxq826(int yjv219, int dpc128) {
     int _f0_state = 0;
-    int hlh858;
 _f0_dispatcher:
     switch (_f0_state) {
         case 0: goto _f0_case_0;
-        case 1: goto _f0_case_1;
-        case 2: goto _f0_end;
+        case 1: goto _f0_end;
     }
     {
     _f0_case_0:
-        hlh858 = (izz890 - (-grh682));
+        if ((yjv219 > dpc128))
+        {
+            if (0)
+            {
+                printf("Unreachable\\n");
+            }
+            return yjv219;
+        }
+        else
+        {
+            return dpc128;
+        }
         _f0_state = 1;
         goto _f0_dispatcher;
-    }
-    {
-    _f0_case_1:
-        return hlh858;
     }
     {
     _f0_end:
@@ -24,12 +29,9 @@ _f0_dispatcher:
 }
 int main() {
     int _f1_state = 0;
-    int fzs308;
-    int qkv5;
-    int rxh531;
-    int unused_0;
-    int unused_1;
-    int unused_2;
+    int orz404;
+    int xfz533;
+    int ysl423;
 _f1_dispatcher:
     switch (_f1_state) {
         case 0: goto _f1_case_0;
@@ -39,53 +41,59 @@ _f1_dispatcher:
         case 4: goto _f1_case_4;
         case 5: goto _f1_case_5;
         case 6: goto _f1_case_6;
-        case 7: goto _f1_case_7;
-        case 8: goto _f1_end;
+        case 7: goto _f1_end;
     }
     {
     _f1_case_0:
-        unused_0 = 582;
+        if (0)
+        {
+            printf("Unreachable\\n");
+        }
         _f1_state = 1;
         goto _f1_dispatcher;
     }
     {
     _f1_case_1:
-        fzs308 = 3;
+        orz404 = 10;
         _f1_state = 2;
         goto _f1_dispatcher;
     }
     {
     _f1_case_2:
-        rxh531 = 4;
+        xfz533 = 5;
         _f1_state = 3;
         goto _f1_dispatcher;
     }
     {
     _f1_case_3:
-        unused_1 = 170;
+        ysl423 = cxq826(orz404, xfz533);
         _f1_state = 4;
         goto _f1_dispatcher;
     }
     {
     _f1_case_4:
-        qkv5 = koh551(fzs308, rxh531);
+        if ((!(ysl423 != orz404)))
+        {
+            printf("x is max\n");
+        }
+        else
+        {
+            printf("y is max\n");
+        }
         _f1_state = 5;
         goto _f1_dispatcher;
     }
     {
     _f1_case_5:
-        unused_2 = 141;
+        if (0)
+        {
+            printf("Unreachable\\n");
+        }
         _f1_state = 6;
         goto _f1_dispatcher;
     }
     {
     _f1_case_6:
-        printf("%d\n", qkv5);
-        _f1_state = 7;
-        goto _f1_dispatcher;
-    }
-    {
-    _f1_case_7:
         return 0;
     }
     {

@@ -1,21 +1,16 @@
-int koh551(int izz890, int grh682) {
-    int hlh858;
-    hlh858 = (izz890 + grh682);
-    return hlh858;
+int ndk518(int a, int b) {
+    int pom211;
+    unused_0 = 271;
+    pom211 = (avq83 + unr973);
+    return pom211;
 }
 int main() {
-    int fzs308;
-    int qkv5;
-    int rxh531;
-    int unused_0;
-    int unused_1;
-    int unused_2;
-    unused_0 = 582;
-    fzs308 = 3;
-    rxh531 = 4;
-    unused_1 = 170;
-    qkv5 = koh551(fzs308, rxh531);
-    unused_2 = 141;
-    printf("%d\n", qkv5);
+    int ewb501;
+    int gld675;
+    int jyy567;
+    ewb501 = 3;
+    jyy567 = 4;
+    gld675 = ndk518(ewb501, jyy567);
+    printf("%d\n", gld675);
     return 0;
 }
