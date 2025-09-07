@@ -1,14 +1,6 @@
 from deobfuscator.ast import *
-from deobfuscator.techniques.expression_simplifier import ExpressionSimplifier
 
 class DeadCodeRemover:
-    """
-    Remove unused variables, if(0) blocks, unreachable prints, and dead literals.
-    """
-    def __init__(self):
-        # Use expression simplifier internally
-        self.expr_simplifier = ExpressionSimplifier()
-
     def remove(self, prog: Program):
         for func in prog.functions:
             func.body = self._remove_block(func.body)
@@ -16,17 +8,16 @@ class DeadCodeRemover:
     def _remove_block(self, stmts):
         new = []
         for s in stmts:
+            # If (0) → dead
             if isinstance(s, IfStmt):
-                cond = s.condition
-                # Remove `if (0)` blocks entirely
-                if isinstance(cond, Literal) and cond.value == 0:
+                if isinstance(s.condition, Literal) and s.condition.value == 0:
                     continue
-                s.condition = self._simplify_expr(s.condition)
                 s.then_branch = self._wrap(s.then_branch)
                 if s.else_branch:
                     s.else_branch = self._wrap(s.else_branch)
                 new.append(s)
 
+            # Drop unused_* vars entirely
             elif isinstance(s, VariableDecl):
                 if s.name.startswith("unused_"):
                     continue
@@ -34,17 +25,31 @@ class DeadCodeRemover:
                     s.init_expr = self._simplify_expr(s.init_expr)
                 new.append(s)
 
-            elif isinstance(s, Block):
-                s.items = self._remove_block(s.items)
-                if s.items:  # skip empty blocks
-                    new.append(s)
+            # Drop assignments to unused_*
+            elif isinstance(s, Assignment):
+                target_name = s.target if isinstance(s.target, str) else getattr(s.target, "name", "")
+                if target_name.startswith("unused_"):
+                    continue
+                s.value = self._simplify_expr(s.value)
+                new.append(s)
 
+            # ExpressionStmt cleanup
             elif isinstance(s, ExpressionStmt):
                 if s.expr is None: 
                     continue
                 if isinstance(s.expr, Literal): 
                     continue
+                if isinstance(s.expr, Variable) and s.expr.name.startswith("unused_"):
+                    continue
+                if isinstance(s.expr, Assignment):
+                    target_name = s.expr.target if isinstance(s.expr.target, str) else getattr(s.expr.target, "name", "")
+                    if target_name.startswith("unused_"):
+                        continue
                 s.expr = self._simplify_expr(s.expr)
+                new.append(s)
+
+            elif isinstance(s, Block):
+                s.items = self._remove_block(s.items)
                 new.append(s)
 
             elif isinstance(s, WhileStmt):
@@ -59,15 +64,8 @@ class DeadCodeRemover:
                 s.body = self._wrap(s.body)
                 new.append(s)
 
-            elif isinstance(s, Print):
-                # remove unreachable debug prints
-                if isinstance(s.format_str, str) and "Unreachable" in s.format_str:
-                    continue
-                new.append(s)
-
             else:
                 new.append(s)
-
         return new
 
     def _wrap(self, s):
@@ -77,6 +75,18 @@ class DeadCodeRemover:
         return Block(self._remove_block([s]))
 
     def _simplify_expr(self, expr):
-        if expr is None:
+        if expr is None: return None
+        if isinstance(expr, Variable) and expr.name.startswith("unused_"):
             return None
-        return self.expr_simplifier.visit(expr)
+        if isinstance(expr, BinaryOp):
+            return BinaryOp(expr.op, self._simplify_expr(expr.left), self._simplify_expr(expr.right))
+        if isinstance(expr, UnaryOp):
+            return UnaryOp(expr.op, self._simplify_expr(expr.operand))
+        if isinstance(expr, FuncCall):
+            return FuncCall(expr.name, [self._simplify_expr(a) for a in expr.args if a])
+        if isinstance(expr, Assignment):
+            target_name = expr.target if isinstance(expr.target, str) else getattr(expr.target, "name", "")
+            if target_name.startswith("unused_"):
+                return None
+            return Assignment(expr.target, self._simplify_expr(expr.value))
+        return expr

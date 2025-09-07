@@ -23,8 +23,8 @@ stmt
     | returnStmt
     | ioStmt
     | switchStmt
-    | gotoStmt      // <-- اضافه شده
-    | labelStmt     // <-- اضافه شده
+    | gotoStmt     
+    | labelStmt    
     ;
 
 

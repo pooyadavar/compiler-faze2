@@ -12,7 +12,7 @@ from deobfuscator.ast_builder import ASTBuilder
 from deobfuscator.code_generator import CodeGenerator
 def main():
     # --- Parse input file ---
-    input_stream = FileStream("input/input2.mc")
+    input_stream = FileStream("input/input1.mc")
     lexer = ObfuMiniCLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = ObfuMiniCParser(stream)
@@ -50,6 +50,5 @@ def main():
         f.write(output_code)
 
     print("Deobfuscation finished. Check output/cleaned.mc")
-
 if __name__ == '__main__':
     main()
